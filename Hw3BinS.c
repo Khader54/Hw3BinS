@@ -40,57 +40,59 @@ int main(void) {
 int findK(int num)
 {
     int k = 0;
-
-    while(num > 0)
+    while(num % 3 == 0 && num > 0)
     {
-        if(num % 3 == 0)
-        {
             k++;
             num = num / 3;
-            continue;
-        }
-        break;
     }
     return k;
 }
 
 int hw3_primes_binary_search(int arr[], int n, int target) {
-    int right = n, left = 0,mid = right/2, target_k = findK(target),K_mid;
+
+    int right = n, left = 0,mid , k_target = findK(target),k_mid;
 
 
-    while (left < right)
+
+    while (left <= right)
     {
-        K_mid = findK(arr[mid]);
-        if(K_mid < target_k)
+
+        mid = left + (right - left) / 2 ;
+        k_mid = findK(arr[mid]);
+
+        if(k_mid < k_target)
         {
-            left = mid;
-            mid = left + (right - left) / 2 ;
+            left = mid + 1;
         }
-        else if(K_mid == target_k)
+        else if(k_mid > k_target)
+        {
+            right = mid - 1;
+        }
+
+        else if(k_mid == k_target)
         {
             if(arr[mid] == target)
             {
-                return mid;
+                if(mid == 0 || arr[mid -1] != target)
+                {
+                    return mid;
+                }
             }
-            if(target < arr[mid])
-            {
-                right = mid;
-                mid = left + (right - left) / 2;
-            }
-
-            if(target > arr[mid])
-            {
-                left = mid;
-                mid = left + (right - left)/2;
-            }
+            right = mid - 1;
         }
-        if(K_mid > target_k)
+        else if (arr[mid] > target)
         {
-            right = mid;
-            mid = left + (right - left)/2;
+            right = mid - 1;
+        }
+        else
+        {
+            left = mid + 1;
         }
     }
     return -1;
+
+
+
 }
 
 
